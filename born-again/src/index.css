@@ -2,3 +2,9 @@
 @plugin "daisyui" {
     themes: dracula --default;
 }
+
+.v {
+    font-size: 0.6em;
+    vertical-align: super;
+    line-height: 0;
+}
