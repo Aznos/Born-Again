@@ -116,7 +116,13 @@ export default function Reader() {
 
                     {layer === 'scripture' && (
                         passage
-                            ? <p className="leading-loose">{passage.replace(/<[^>]+>/g, '').trim()}</p>
+                            ? <div
+                                className="leading-loose
+                                    [&_.s1]:block [&_.s1]:text-base [&_.s1]:font-semibold [&_.s1]:text-base-content [&_.s1]:mt-6 [&_.s1]:mb-1 [&_.s1]:italic
+                                    [&_.s2]:block [&_.s2]:text-sm [&_.s2]:font-semibold [&_.s2]:text-base-content [&_.s2]:mt-4 [&_.s2]:mb-1
+                                    [&_.v]:text-xs [&_.v]:align-super [&_.v]:text-base-content/40 [&_.v]:font-medium [&_.v]:mr-0.5"
+                                dangerouslySetInnerHTML={{ __html: passage }}
+                              />
                             : <span className="loading loading-dots loading-sm" />
                     )}
 
