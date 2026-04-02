@@ -3,6 +3,7 @@ import {Navigate, Route, Routes} from "react-router-dom";
 import Login from "./pages/Login.tsx";
 import Signup from "./pages/Signup.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
+import Reader from "./pages/Reader.tsx";
 
 function ProtectedRoute({ children }) {
     const { user, loading } = useAuth()
@@ -29,6 +30,9 @@ function App() {
             <Route path={"/signup"} element={<Signup />} />
             <Route path={"/dashboard"} element={
                 <ProtectedRoute><Dashboard /></ProtectedRoute>
+            } />
+            <Route path={"/read/:day"} element={
+                <ProtectedRoute><Reader /></ProtectedRoute>
             } />
         </Routes>
     )
