@@ -2,6 +2,7 @@ import {useAuth} from "./hooks/useAuth.ts";
 import {Navigate, Route, Routes} from "react-router-dom";
 import Login from "./pages/Login.tsx";
 import Signup from "./pages/Signup.tsx";
+import Dashboard from "./pages/Dashboard.tsx";
 
 function ProtectedRoute({ children }) {
     const { user, loading } = useAuth()
@@ -26,6 +27,9 @@ function App() {
             <Route path={"/"} element={<Navigate to={"/dashboard"} replace />} />
             <Route path={"/login"} element={<Login />} />
             <Route path={"/signup"} element={<Signup />} />
+            <Route path={"/dashboard"} element={
+                <ProtectedRoute><Dashboard /></ProtectedRoute>
+            } />
         </Routes>
     )
 }
