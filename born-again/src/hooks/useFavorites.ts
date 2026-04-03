@@ -20,10 +20,14 @@ export function useFavorites(userId: string | undefined) {
 
     const addFavorite = useMutation({
         mutationFn: async (verse: Omit<Favorite, "id" | "user_id" | "created_at">) => {
-            await supabase.from("favorites").insert({
+            const { error } = await supabase.from("favorites").insert({
                 user_id: userId,
                 ...verse
             })
+            if (error) {
+                console.error('[favorites] insert error:', error.code, error.message, error.details)
+                if (error.code !== '23505') throw error
+            }
         },
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["favorites", userId] })
     })

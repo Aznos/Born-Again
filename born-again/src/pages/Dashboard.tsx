@@ -1,5 +1,5 @@
 import {useAuth} from "../hooks/useAuth.ts";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {supabase} from "../lib/supabase.ts";
 import {useQuery} from "@tanstack/react-query";
 import plan from "../content/plan.json"
@@ -11,7 +11,6 @@ export default function Dashboard() {
     const { data: completedIds } = useQuery({
         queryKey: ['progress', user?.id],
         queryFn: async () => {
-            // @ts-ignore
             const { data } = await supabase
                 .from('progress')
                 .select('plan_id')
@@ -49,6 +48,12 @@ export default function Dashboard() {
                     value={completed}
                     max={total}
                 />
+
+                <div className={"flex justify-end mb-6"}>
+                    <Link to={"/favorites"} className={"btn btn-ghost btn-sm text-base-content/40"}>
+                        ♥ Favorites
+                    </Link>
+                </div>
 
                 {nextDay && (
                     <div

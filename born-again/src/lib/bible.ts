@@ -5,7 +5,7 @@ const BASE = "/bible-api/v1"
 
 export async function getPassage(book: string, chapter: number, verseStart: number, verseEnd: number): Promise<Verse[]> {
     const passage = `${book}.${chapter}.${verseStart}-${book}.${chapter}.${verseEnd}`
-    const url = `${BASE}/bibles/${BIBLE_ID}/passages/${passage}?content-type=html&include-verse-numbers=true`
+    const url = `${BASE}/bibles/${BIBLE_ID}/passages/${passage}?content-type=text&include-verse-numbers=true`
     const res = await fetch(url)
 
     if (!res.ok) {

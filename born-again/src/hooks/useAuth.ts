@@ -8,8 +8,13 @@ export function useAuth() {
 
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
-            setUser(session?.user ?? null)
+            const u = session?.user ?? null
+            setUser(u)
             setLoading(false)
+            if (u) {
+                supabase.from('profiles').upsert({ id: u.id }, { onConflict: 'id', ignoreDuplicates: true })
+                    .then(({ error }) => { if (error) console.error('[profiles] upsert error:', error.code, error.message) })
+            }
         })
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
