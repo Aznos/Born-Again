@@ -1,11 +1,10 @@
 import {useAuth} from "../hooks/useAuth.ts";
-import {useNavigate} from "react-router-dom";
 import {useFavorites} from "../hooks/useFavorites.ts";
+import BackButton from "../components/BackButton.tsx";
 
 export default function Favorites() {
     const { user } = useAuth()
-    const navigate = useNavigate()
-    const { favorites, removeFavorite } = useFavorites(user?.id)
+const { favorites, removeFavorite } = useFavorites(user?.id)
 
     const grouped = favorites.reduce<Record<string, typeof favorites>>((acc, fav) => {
         const key = `${fav.book} ${fav.chapter}`
@@ -17,10 +16,7 @@ export default function Favorites() {
 
     return (
         <div className={"min-h-screen max-w-2xl mx-auto px-6 py-12"}>
-            <button
-                onClick={() => navigate("/dashboard")}
-                className={"btn btn-ghost btn-sm mb-8 -ml-2"}
-            >← Back</button>
+            <BackButton to="/dashboard" />
 
             <h1 className={"text-3xl font-semibold mb-1"}>Favorites</h1>
             <p className={"text-base-content/40 text-sm mb-8"}>

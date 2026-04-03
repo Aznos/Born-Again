@@ -1,4 +1,5 @@
 import {useNavigate, useParams} from "react-router-dom";
+import BackButton from "../components/BackButton.tsx";
 import {useAuth} from "../hooks/useAuth.ts";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {useState} from "react";
@@ -102,15 +103,11 @@ export default function Reader() {
 
     return (
         <div className="min-h-screen max-w-2xl mx-auto px-6 py-12">
-            <button
-                onClick={() => navigate('/dashboard')}
-                className="btn btn-ghost btn-sm mb-8 -ml-2"
-            >
-                ← Back
-            </button>
-
-            <div className="badge badge-primary badge-outline mb-3">
-                Day {section.day}
+            <div className="flex items-center justify-between mb-8">
+                <BackButton to="/dashboard" />
+                <div className="badge badge-primary badge-outline">
+                    Day {section.day}
+                </div>
             </div>
             <h1 className="text-3xl font-semibold mb-1">{planData.title}</h1>
             <p className="text-base-content/40 text-sm mb-8">
