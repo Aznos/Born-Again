@@ -5,28 +5,24 @@ import Signup from "./pages/Signup.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import Reader from "./pages/Reader.tsx";
 import Favorites from "./pages/Favorites.tsx";
+import type {ReactNode} from "react";
 
-function ProtectedRoute({ children }) {
+function ProtectedRoute({ children }: { children: ReactNode }) {
     const { user, loading } = useAuth()
-    if(loading) return <div className={"min-h-screen"} />
-    if(!user) return <Navigate to="/login" replace />
-    return children
+    if(loading) return (
+        <div className={"min-h-screen flex items-center justify-center"}>
+            <span className={"loading loading-spinner loading-lg"} />
+        </div>
+    )
+
+    if(!user) return <Navigate to="/" replace />
+    return <>{children}</>
 }
 
 function App() {
-    // const [text, setText] = useState<string | null>(null)
-    //
-    // useEffect(() => {
-    //     getPassage("JHN", 1, 3, 7).then(setText)
-    // }, [])
-    //
-    // return <>
-    //     {text && <div className="text-4xl text-primary" dangerouslySetInnerHTML={{ __html: text }} />}
-    // </>
-
     return (
         <Routes>
-            <Route path={"/"} element={<Navigate to={"/dashboard"} replace />} />
+            <Route path={"/"} />
             <Route path={"/login"} element={<Login />} />
             <Route path={"/signup"} element={<Signup />} />
             <Route path={"/dashboard"} element={
