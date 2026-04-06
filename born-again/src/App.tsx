@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard.tsx";
 import Reader from "./pages/Reader.tsx";
 import Favorites from "./pages/Favorites.tsx";
 import type {ReactNode} from "react";
+import Layout from "./components/layout/Layout.tsx";
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
     const { user, loading } = useAuth()
@@ -21,20 +22,22 @@ function ProtectedRoute({ children }: { children: ReactNode }) {
 
 function App() {
     return (
-        <Routes>
-            <Route path={"/"} />
-            <Route path={"/login"} element={<Login />} />
-            <Route path={"/signup"} element={<Signup />} />
-            <Route path={"/dashboard"} element={
-                <ProtectedRoute><Dashboard /></ProtectedRoute>
-            } />
-            <Route path={"/favorites"} element={
-                <ProtectedRoute><Favorites /></ProtectedRoute>
-            } />
-            <Route path={"/read/:day"} element={
-                <ProtectedRoute><Reader /></ProtectedRoute>
-            } />
-        </Routes>
+        <Layout>
+            <Routes>
+                <Route path={"/"} />
+                <Route path={"/login"} element={<Login />} />
+                <Route path={"/signup"} element={<Signup />} />
+                <Route path={"/dashboard"} element={
+                    <ProtectedRoute><Dashboard /></ProtectedRoute>
+                } />
+                <Route path={"/favorites"} element={
+                    <ProtectedRoute><Favorites /></ProtectedRoute>
+                } />
+                <Route path={"/read/:day"} element={
+                    <ProtectedRoute><Reader /></ProtectedRoute>
+                } />
+            </Routes>
+        </Layout>
     )
 }
 
