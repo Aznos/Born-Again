@@ -7,6 +7,7 @@ import Reader from "./pages/Reader.tsx";
 import Favorites from "./pages/Favorites.tsx";
 import type {ReactNode} from "react";
 import Layout from "./components/layout/Layout.tsx";
+import NotFound from "./pages/NotFound.tsx";
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
     const { user, loading } = useAuth()
@@ -36,6 +37,7 @@ function App() {
                 <Route path={"/read/:day"} element={
                     <ProtectedRoute><Reader /></ProtectedRoute>
                 } />
+                <Route path={"*"} element={<NotFound />} />
             </Routes>
         </Layout>
     )
