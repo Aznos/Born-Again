@@ -6,5 +6,37 @@
     "chapter": 1,
     "verse_start": 1,
     "verse_end": 18
+  },
+  {
+    "day": 2,
+    "title": "John the Baptist's testimony",
+    "book": "JHN",
+    "chapter": 1,
+    "verse_start": 19,
+    "verse_end": 34
+  },
+  {
+    "day": 3,
+    "title": "The first disciples",
+    "book": "JHN",
+    "chapter": 1,
+    "verse_start": 35,
+    "verse_end": 51
+  },
+  {
+    "day": 4,
+    "title": "Water into wine",
+    "book": "JHN",
+    "chapter": 2,
+    "verse_start": 1,
+    "verse_end": 12
+  },
+  {
+    "day": 5,
+    "title": "Clearing the temple",
+    "book": "JHN",
+    "chapter": 2,
+    "verse_start": 13,
+    "verse_end": 25
   }
 ]
