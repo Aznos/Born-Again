@@ -174,7 +174,7 @@ export default function Reader() {
                 </p>
             )}
 
-            <div className="mt-12">
+            <div className="mt-12 flex flex-col gap-3">
                 {!isCompleted ? (
                     <button
                         onClick={() => completeMutation.mutate()}
@@ -187,8 +187,16 @@ export default function Reader() {
                         }
                     </button>
                 ) : (
-                    <div className="alert alert-success">
-                        <span>✓ You completed this section</span>
+                    <div className="flex flex-col gap-3">
+                        <div className="alert alert-success">
+                            <span>✓ You completed this section</span>
+                        </div>
+                        <button
+                            onClick={() => navigate('/dashboard')}
+                            className="btn btn-ghost w-full"
+                        >
+                            Back to dashboard
+                        </button>
                     </div>
                 )}
             </div>
