@@ -2,7 +2,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import BackButton from "../components/BackButton.tsx";
 import {useAuth} from "../hooks/useAuth.ts";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import plan from "../content/plan.json"
 import {supabase} from "../lib/supabase.ts";
 import {getPassage, estimateReadTime} from "../lib/localBible.ts";
@@ -17,6 +17,10 @@ export default function Reader() {
     const queryClient = useQueryClient()
     const [step, setStep] = useState<"scripture" | "reflection">("scripture")
     const [showCommentary, setShowCommentary] = useState(false)
+    const [isSpeaking, setIsSpeaking] = useState(false)
+    const [speakingVerse, setSpeakingVerse] = useState<number | null>(null)
+    const verseIndexRef = useRef(0)
+    const verseElsRef = useRef<Record<number, HTMLDivElement | null>>({})
 
     const section = plan.find(d => d.day === parseInt(day ?? '1'))
     const { addFavorite, removeFavorite, isFavorited } = useFavorites(user?.id)
@@ -89,6 +93,46 @@ export default function Reader() {
         }
     }
 
+    function speakFrom(index: number) {
+        if (index >= verses.length) {
+            setIsSpeaking(false)
+            setSpeakingVerse(null)
+            return
+        }
+        const v = verses[index]
+        setSpeakingVerse(v.number)
+        verseIndexRef.current = index
+        const utterance = new SpeechSynthesisUtterance(v.text)
+        utterance.onend = () => speakFrom(index + 1)
+        utterance.onerror = () => {
+            setIsSpeaking(false)
+            setSpeakingVerse(null)
+        }
+        window.speechSynthesis.speak(utterance)
+    }
+
+    function startTTS() {
+        window.speechSynthesis.cancel()
+        setIsSpeaking(true)
+        speakFrom(0)
+    }
+
+    function stopTTS() {
+        window.speechSynthesis.cancel()
+        setIsSpeaking(false)
+        setSpeakingVerse(null)
+    }
+
+    useEffect(() => {
+        return () => { window.speechSynthesis.cancel() }
+    }, [])
+
+    useEffect(() => {
+        if (speakingVerse !== null) {
+            verseElsRef.current[speakingVerse]?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+    }, [speakingVerse])
+
     if (!section || !planData) {
         return (
             <div className="min-h-screen bg-base-200 flex items-center justify-center">
@@ -118,19 +162,46 @@ export default function Reader() {
                         {verses.length === 0 && (
                             <span className="loading loading-spinner loading-sm" />
                         )}
+                        {verses.length > 0 && (
+                            <div className="flex justify-end mb-1">
+                                <button
+                                    onClick={isSpeaking ? stopTTS : startTTS}
+                                    className={`btn btn-sm gap-2 ${isSpeaking ? 'btn-error btn-outline' : 'btn-ghost text-base-content/40'}`}
+                                >
+                                    {isSpeaking ? (
+                                        <>
+                                            <span className="inline-block w-2 h-2 rounded-sm bg-current" />
+                                            Stop
+                                        </>
+                                    ) : (
+                                        <>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                                                <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.84Z" />
+                                            </svg>
+                                            Listen
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+                        )}
                         {verses.map(v => {
                             const fav = isFavorited(section.book, section.chapter, v.number)
+                            const speaking = speakingVerse === v.number
                             return (
                                 <div
                                     key={v.number}
+                                    ref={el => { verseElsRef.current[v.number] = el }}
                                     onClick={() => handleVerseTap(v.number, v.text)}
                                     className={`flex gap-3 p-3 rounded-lg cursor-pointer transition-colors group
-                                                ${fav ? 'bg-primary/10 border border-primary/30' : 'hover:bg-base-200'}`}
+                                                ${speaking ? 'bg-success/10 border border-success/40' : fav ? 'bg-primary/10 border border-primary/30' : 'hover:bg-base-200'}`}
                                 >
-                                    <span className="text-xs text-base-content/30 mt-1 w-5 shrink-0 font-mono">
+                                    <span className="text-xs text-base-content/30 mt-1 w-5 shrink-0 font-mono flex flex-col items-center gap-1">
                                         {v.number}
+                                        {speaking && (
+                                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+                                        )}
                                     </span>
-                                    <p className="text-base-content/80 leading-relaxed text-base flex-1">
+                                    <p className={`leading-relaxed text-base flex-1 transition-colors ${speaking ? 'text-base-content' : 'text-base-content/80'}`}>
                                         {v.text}
                                     </p>
                                     <div className={"flex items-center gap-1 shrink-0"}>
