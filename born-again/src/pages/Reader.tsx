@@ -93,6 +93,16 @@ export default function Reader() {
         }
     }
 
+    function getBestVoice(): SpeechSynthesisVoice | null {
+        const voices = window.speechSynthesis.getVoices()
+        const preferred = ['Samantha', 'Google US English', 'Google UK English Female', 'Microsoft Aria', 'Karen', 'Moira']
+        for (const name of preferred) {
+            const match = voices.find(v => v.name.includes(name))
+            if (match) return match
+        }
+        return voices.find(v => v.lang.startsWith('en')) ?? null
+    }
+
     function speakFrom(index: number) {
         if (index >= verses.length) {
             setIsSpeaking(false)
@@ -103,7 +113,10 @@ export default function Reader() {
         setSpeakingVerse(v.number)
         verseIndexRef.current = index
         const utterance = new SpeechSynthesisUtterance(v.text)
-        utterance.onend = () => speakFrom(index + 1)
+        utterance.voice = getBestVoice()
+        utterance.rate = 0.88
+        utterance.pitch = 1.0
+        utterance.onend = () => setTimeout(() => speakFrom(index + 1), 350)
         utterance.onerror = () => {
             setIsSpeaking(false)
             setSpeakingVerse(null)
