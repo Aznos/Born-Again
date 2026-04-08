@@ -106,7 +106,9 @@ export default function Reader() {
             </div>
             <h1 className="text-3xl font-semibold mb-1">{planData.title}</h1>
             <p className="text-base-content/40 text-sm mb-8">
-                {section.book} {section.chapter}:{section.verse_start}–{section.verse_end} · WEB
+                {section.book} {section.chapter}:{section.verse_start}–{section.verse_end}
+                {' · '}WEB
+                {' · '}{readTime} min read
             </p>
 
             {step === 'scripture' && (
