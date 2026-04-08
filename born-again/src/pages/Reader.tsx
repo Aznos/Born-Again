@@ -7,6 +7,7 @@ import plan from "../content/plan.json"
 import {supabase} from "../lib/supabase.ts";
 import {getPassage, estimateReadTime} from "../lib/localBible.ts";
 import {useFavorites} from "../hooks/useFavorites.ts";
+import ShareVerse from "../components/reader/ShareVerse.tsx";
 
 
 export default function Reader() {
@@ -132,10 +133,14 @@ export default function Reader() {
                                     <p className="text-base-content/80 leading-relaxed text-base flex-1">
                                         {v.text}
                                     </p>
-                                    <span className={`text-lg shrink-0 transition-opacity
+                                    <div className={"flex items-center gap-1 shrink-0"}>
+                                        <ShareVerse book={section.book} chapter={section.chapter} verseNumber={v.number} verseText={v.text} />
+
+                                        <span className={`text-lg shrink-0 transition-opacity
                                                     ${fav ? 'opacity-100' : 'opacity-0 group-hover:opacity-30'}`}>
                                         ♥
                                     </span>
+                                    </div>
                                 </div>
                             )
                         })}

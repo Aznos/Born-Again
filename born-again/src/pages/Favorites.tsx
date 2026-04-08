@@ -1,6 +1,7 @@
 import {useAuth} from "../hooks/useAuth.ts";
 import {useFavorites} from "../hooks/useFavorites.ts";
 import BackButton from "../components/BackButton.tsx";
+import ShareVerse from "../components/reader/ShareVerse.tsx";
 
 export default function Favorites() {
     const { user } = useAuth()
@@ -46,6 +47,12 @@ const { favorites, removeFavorite } = useFavorites(user?.id)
                                         <p className={"text-base-content/80 leading-relaxed flex-1 text-sm"}>
                                             {fav.verse_text}
                                         </p>
+                                        <ShareVerse
+                                            book={fav.book}
+                                            chapter={fav.chapter}
+                                            verseNumber={fav.verse}
+                                            verseText={fav.verse_text}
+                                        />
                                         <button
                                             onClick={() => removeFavorite.mutate({
                                                 book: fav.book,

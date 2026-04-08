@@ -29,7 +29,22 @@ export function useFavorites(userId: string | undefined) {
                 if (error.code !== '23505') throw error
             }
         },
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["favorites", userId] })
+        onMutate: async (verse) => {
+            await queryClient.cancelQueries({ queryKey: ["favorites", userId] })
+            const previous = queryClient.getQueryData<Favorite[]>(["favorites", userId])
+            const optimistic: Favorite = {
+                id: `optimistic-${Date.now()}`,
+                user_id: userId ?? '',
+                created_at: new Date().toISOString(),
+                ...verse
+            }
+            queryClient.setQueryData<Favorite[]>(["favorites", userId], old => [optimistic, ...(old ?? [])])
+            return { previous }
+        },
+        onError: (_err, _verse, ctx) => {
+            queryClient.setQueryData(["favorites", userId], ctx?.previous)
+        },
+        onSettled: () => queryClient.invalidateQueries({ queryKey: ["favorites", userId] })
     })
 
     const removeFavorite = useMutation({
@@ -46,7 +61,18 @@ export function useFavorites(userId: string | undefined) {
                 .eq("chapter", chapter)
                 .eq("verse", verse)
         },
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["favorites", userId] })
+        onMutate: async ({ book, chapter, verse }) => {
+            await queryClient.cancelQueries({ queryKey: ["favorites", userId] })
+            const previous = queryClient.getQueryData<Favorite[]>(["favorites", userId])
+            queryClient.setQueryData<Favorite[]>(["favorites", userId], old =>
+                (old ?? []).filter(f => !(f.book === book && f.chapter === chapter && f.verse === verse))
+            )
+            return { previous }
+        },
+        onError: (_err, _vars, ctx) => {
+            queryClient.setQueryData(["favorites", userId], ctx?.previous)
+        },
+        onSettled: () => queryClient.invalidateQueries({ queryKey: ["favorites", userId] })
     })
 
     function isFavorited(book: string, chapter: number, verse: number) {
