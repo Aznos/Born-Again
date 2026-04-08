@@ -82,6 +82,12 @@ export default function Dashboard() {
                 </div>
             )}
 
+            <div className="flex justify-end mb-6 -mt-4">
+                <Link to="/plan" className="btn btn-ghost btn-xs text-base-content/30">
+                    View full plan →
+                </Link>
+            </div>
+
             {recentlyCompleted.length > 0 && (
                 <div>
                     <p className="text-xs text-base-content/30 font-mono uppercase tracking-wider mb-3">
