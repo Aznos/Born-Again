@@ -8,6 +8,7 @@ import Favorites from "./pages/Favorites.tsx";
 import type {ReactNode} from "react";
 import Layout from "./components/layout/Layout.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import Home from "./pages/Home.tsx";
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
     const { user, loading } = useAuth()
@@ -25,7 +26,7 @@ function App() {
     return (
         <Layout>
             <Routes>
-                <Route path={"/"} />
+                <Route path={"/"} element={<Home />} />
                 <Route path={"/login"} element={<Login />} />
                 <Route path={"/signup"} element={<Signup />} />
                 <Route path={"/dashboard"} element={

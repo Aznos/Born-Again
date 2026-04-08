@@ -37,3 +37,11 @@ export interface Favorite {
 export interface ProgressRow {
     plan_id: number
 }
+
+export interface WEBVerse {
+    type: string
+    chapterNumber?: number
+    verseNumber?: number
+    sectionNumber?: number
+    value?: string
+}
