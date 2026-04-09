@@ -3,7 +3,7 @@
 A free, open source Bible reading app for new believers and curious seekers.
 Built with React, TypeScript, Supabase, and DaisyUI.
 
-**Live at [placeholder.com](https://placeholder.com)**
+**Live at [bornagain.maddoxh.com](https://bornagain.maddoxh.com)**
 
 ---
 
