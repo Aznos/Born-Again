@@ -31,7 +31,7 @@ export default function PlanOverview() {
             </p>
 
             <div className="flex flex-col gap-2">
-                {(plan as PlanSection[]).map((section, index) => {
+                {(plan as PlanSection[]).map((section) => {
                     const done = isCompleted(section.day)
                     const isNext = nextSection?.day === section.day
                     const readTime = estimateReadTime(
