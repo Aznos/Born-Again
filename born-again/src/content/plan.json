@@ -1,42 +1,32 @@
 [
-  {
-    "day": 1,
-    "title": "In the beginning was the Word",
-    "book": "JHN",
-    "chapter": 1,
-    "verse_start": 1,
-    "verse_end": 18
-  },
-  {
-    "day": 2,
-    "title": "John the Baptist's testimony",
-    "book": "JHN",
-    "chapter": 1,
-    "verse_start": 19,
-    "verse_end": 34
-  },
-  {
-    "day": 3,
-    "title": "The first disciples",
-    "book": "JHN",
-    "chapter": 1,
-    "verse_start": 35,
-    "verse_end": 51
-  },
-  {
-    "day": 4,
-    "title": "Water into wine",
-    "book": "JHN",
-    "chapter": 2,
-    "verse_start": 1,
-    "verse_end": 12
-  },
-  {
-    "day": 5,
-    "title": "Clearing the temple",
-    "book": "JHN",
-    "chapter": 2,
-    "verse_start": 13,
-    "verse_end": 25
-  }
+  { "day": 1, "title": "In the beginning was the Word", "book": "JHN", "chapter": 1, "verse_start": 1, "verse_end": 18 },
+  { "day": 2, "title": "John the Baptist's testimony", "book": "JHN", "chapter": 1, "verse_start": 19, "verse_end": 34 },
+  { "day": 3, "title": "The first disciples", "book": "JHN", "chapter": 1, "verse_start": 35, "verse_end": 51 },
+  { "day": 4, "title": "Water into wine", "book": "JHN", "chapter": 2, "verse_start": 1, "verse_end": 12 },
+  { "day": 5, "title": "Clearing the temple", "book": "JHN", "chapter": 2, "verse_start": 13, "verse_end": 25 },
+  { "day": 6, "title": "You must be born again", "book": "JHN", "chapter": 3, "verse_start": 1, "verse_end": 21 },
+  { "day": 7, "title": "He must become greater", "book": "JHN", "chapter": 3, "verse_start": 22, "verse_end": 36 },
+  { "day": 8, "title": "The woman at the well", "book": "JHN", "chapter": 4, "verse_start": 1, "verse_end": 26 },
+  { "day": 9, "title": "The harvest is ready", "book": "JHN", "chapter": 4, "verse_start": 27, "verse_end": 54 },
+  { "day": 10, "title": "Healing at the pool", "book": "JHN", "chapter": 5, "verse_start": 1, "verse_end": 30 },
+  { "day": 11, "title": "The Father and the Son", "book": "JHN", "chapter": 5, "verse_start": 31, "verse_end": 47 },
+  { "day": 12, "title": "Bread for five thousand", "book": "JHN", "chapter": 6, "verse_start": 1, "verse_end": 21 },
+  { "day": 13, "title": "I am the bread of life", "book": "JHN", "chapter": 6, "verse_start": 22, "verse_end": 59 },
+  { "day": 14, "title": "Will you also leave?", "book": "JHN", "chapter": 6, "verse_start": 60, "verse_end": 71 },
+  { "day": 15, "title": "Jesus at the feast", "book": "JHN", "chapter": 7, "verse_start": 1, "verse_end": 36 },
+  { "day": 16, "title": "Rivers of living water", "book": "JHN", "chapter": 7, "verse_start": 37, "verse_end": 53 },
+  { "day": 17, "title": "The woman and the light", "book": "JHN", "chapter": 8, "verse_start": 1, "verse_end": 20 },
+  { "day": 18, "title": "The truth will set you free", "book": "JHN", "chapter": 8, "verse_start": 21, "verse_end": 47 },
+  { "day": 19, "title": "Before Abraham was, I am", "book": "JHN", "chapter": 8, "verse_start": 48, "verse_end": 59 },
+  { "day": 20, "title": "The man born blind", "book": "JHN", "chapter": 9, "verse_start": 1, "verse_end": 41 },
+  { "day": 21, "title": "The good shepherd", "book": "JHN", "chapter": 10, "verse_start": 1, "verse_end": 21 },
+  { "day": 22, "title": "I and the Father are one", "book": "JHN", "chapter": 10, "verse_start": 22, "verse_end": 42 },
+  { "day": 23, "title": "Lazarus has died", "book": "JHN", "chapter": 11, "verse_start": 1, "verse_end": 37 },
+  { "day": 24, "title": "The resurrection and the life", "book": "JHN", "chapter": 11, "verse_start": 38, "verse_end": 57 },
+  { "day": 25, "title": "Anointed for burial", "book": "JHN", "chapter": 12, "verse_start": 1, "verse_end": 26 },
+  { "day": 26, "title": "The hour has come", "book": "JHN", "chapter": 12, "verse_start": 27, "verse_end": 50 },
+  { "day": 27, "title": "The servant king", "book": "JHN", "chapter": 13, "verse_start": 1, "verse_end": 30 },
+  { "day": 28, "title": "I am the way", "book": "JHN", "chapter": 14, "verse_start": 1, "verse_end": 14 },
+  { "day": 29, "title": "The promise of the Spirit", "book": "JHN", "chapter": 14, "verse_start": 15, "verse_end": 31 },
+  { "day": 30, "title": "Abide in me", "book": "JHN", "chapter": 15, "verse_start": 1, "verse_end": 17 }
 ]

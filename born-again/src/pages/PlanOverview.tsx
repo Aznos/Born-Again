@@ -7,9 +7,13 @@ import type { PlanSection } from '../types'
 import BackButton from "../components/BackButton.tsx";
 
 const PHASE_LABELS: Record<number, string> = {
-    1: 'The Gospel of John',
-    6: 'The Gospel of Matthew',
-    11: 'The Gospel of Mark',
+    1: 'John — The Word made flesh',
+    6: 'John — Signs and confrontations',
+    12: 'John — Bread of life',
+    17: 'John — Light and darkness',
+    20: 'John — I am statements',
+    23: 'John — Death and life',
+    27: 'John — The upper room',
 }
 
 export default function PlanOverview() {

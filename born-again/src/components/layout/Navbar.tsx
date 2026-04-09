@@ -31,7 +31,7 @@ export default function Navbar() {
                     <Link to={"/favorites"} className={`btn btn-ghost btn-sm ${isActive("/favorites") ? "btn-active" : ""}`}>
                         Favorites
                     </Link>
-                    <Link to={"/plan"} className={`btn btn-ghost btn-sm ${isActive("/favorites") ? "btn-active" : ""}`}>
+                    <Link to={"/plan"} className={`btn btn-ghost btn-sm ${isActive("/plan") ? "btn-active" : ""}`}>
                         Plan
                     </Link>
                     <div className={"dropdown dropdown-end"}>

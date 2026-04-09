@@ -5,7 +5,7 @@ import ShareVerse from "../components/reader/ShareVerse.tsx";
 
 export default function Favorites() {
     const { user } = useAuth()
-const { favorites, removeFavorite } = useFavorites(user?.id)
+    const { favorites, removeFavorite } = useFavorites(user?.id)
 
     const grouped = favorites.reduce<Record<string, typeof favorites>>((acc, fav) => {
         const key = `${fav.book} ${fav.chapter}`

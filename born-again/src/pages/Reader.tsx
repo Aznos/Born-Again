@@ -20,6 +20,7 @@ export default function Reader() {
     const [isSpeaking, setIsSpeaking] = useState(false)
     const [speakingVerse, setSpeakingVerse] = useState<number | null>(null)
     const verseIndexRef = useRef(0)
+    const stoppedRef = useRef(false)
     const verseElsRef = useRef<Record<number, HTMLDivElement | null>>({})
 
     const section = plan.find(d => d.day === parseInt(day ?? '1'))
@@ -104,9 +105,8 @@ export default function Reader() {
     }
 
     function speakFrom(index: number) {
-        if (index >= verses.length) {
-            setIsSpeaking(false)
-            setSpeakingVerse(null)
+        if (stoppedRef.current || index >= verses.length) {
+            if (!stoppedRef.current) { setIsSpeaking(false); setSpeakingVerse(null) }
             return
         }
         const v = verses[index]
@@ -117,7 +117,8 @@ export default function Reader() {
         utterance.rate = 0.88
         utterance.pitch = 1.0
         utterance.onend = () => setTimeout(() => speakFrom(index + 1), 350)
-        utterance.onerror = () => {
+        utterance.onerror = (e) => {
+            if (e.error === 'interrupted') return
             setIsSpeaking(false)
             setSpeakingVerse(null)
         }
@@ -125,12 +126,14 @@ export default function Reader() {
     }
 
     function startTTS() {
+        stoppedRef.current = false
         window.speechSynthesis.cancel()
         setIsSpeaking(true)
         speakFrom(0)
     }
 
     function stopTTS() {
+        stoppedRef.current = true
         window.speechSynthesis.cancel()
         setIsSpeaking(false)
         setSpeakingVerse(null)

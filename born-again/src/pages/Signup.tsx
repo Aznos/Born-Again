@@ -1,4 +1,4 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {supabase} from "../lib/supabase.ts";
 
@@ -9,7 +9,7 @@ export default function Signup() {
     const [loading, setLoading] = useState<boolean>(false)
     const navigate = useNavigate()
 
-    async function handleSubmit(e: { preventDefault: () => void; }) {
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
         setLoading(true)
         setError(null)
@@ -35,6 +35,7 @@ export default function Signup() {
                         <input
                             type="email"
                             placeholder="Email"
+                            aria-label="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className="input input-bordered w-full"
@@ -43,6 +44,7 @@ export default function Signup() {
                         <input
                             type="password"
                             placeholder="Password"
+                            aria-label="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="input input-bordered w-full"

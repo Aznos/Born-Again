@@ -17,10 +17,13 @@ export default function ShareVerse({
     const [copied, setCopied] = useState(false)
 
     async function handleCopy() {
-        const text = `"${verseText}" - ${book} ${chapter}:${verseNumber} (WEB)`
-        await navigator.clipboard.writeText(text)
-        setCopied(true)
-        setTimeout(() => setCopied(false), 2000)
+        try {
+            await navigator.clipboard.writeText(`"${verseText}" - ${book} ${chapter}:${verseNumber} (WEB)`)
+            setCopied(true)
+            setTimeout(() => setCopied(false), 2000)
+        } catch {
+            // clipboard not available — silently ignore
+        }
     }
 
     return (
