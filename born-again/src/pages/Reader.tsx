@@ -8,6 +8,7 @@ import {supabase} from "../lib/supabase.ts";
 import {getPassage, estimateReadTime} from "../lib/localBible.ts";
 import {useFavorites} from "../hooks/useFavorites.ts";
 import ShareVerse from "../components/reader/ShareVerse.tsx";
+import SEO from "../components/SEO.tsx";
 
 
 export default function Reader() {
@@ -158,149 +159,159 @@ export default function Reader() {
     }
 
     return (
-        <div className="min-h-screen max-w-2xl mx-auto px-6 py-12">
-            <div className="flex items-center justify-between mb-8">
-                <BackButton to="/dashboard" />
-                <div className="badge badge-primary badge-outline">
-                    Day {section.day}
+        <><SEO
+            title={planData.title}
+            description={planData.summary.slice(0, 155)}/>
+            <div className="min-h-screen max-w-2xl mx-auto px-6 py-12">
+                <div className="flex items-center justify-between mb-8">
+                    <BackButton to="/dashboard"/>
+                    <div className="badge badge-primary badge-outline">
+                        Day {section.day}
+                    </div>
                 </div>
-            </div>
-            <h1 className="text-3xl font-semibold mb-1">{planData.title}</h1>
-            <p className="text-base-content/40 text-sm mb-8">
-                {section.book} {section.chapter}:{section.verse_start}–{section.verse_end}
-                {' · '}WEB
-                {' · '}{readTime} min read
-            </p>
+                <h1 className="text-3xl font-semibold mb-1">{planData.title}</h1>
+                <p className="text-base-content/40 text-sm mb-8">
+                    {section.book} {section.chapter}:{section.verse_start}–{section.verse_end}
+                    {' · '}WEB
+                    {' · '}{readTime} min read
+                </p>
 
-            {step === 'scripture' && (
-                <>
-                    <div className="flex flex-col gap-3">
-                        {verses.length === 0 && (
-                            <span className="loading loading-spinner loading-sm" />
-                        )}
-                        {verses.length > 0 && (
-                            <div className="flex justify-end mb-1">
-                                <button
-                                    onClick={isSpeaking ? stopTTS : startTTS}
-                                    className={`btn btn-sm gap-2 ${isSpeaking ? 'btn-error btn-outline' : 'btn-ghost text-base-content/40'}`}
-                                >
-                                    {isSpeaking ? (
-                                        <>
-                                            <span className="inline-block w-2 h-2 rounded-sm bg-current" />
-                                            Stop
-                                        </>
-                                    ) : (
-                                        <>
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-                                                <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.84Z" />
-                                            </svg>
-                                            Listen
-                                        </>
-                                    )}
-                                </button>
-                            </div>
-                        )}
-                        {verses.map(v => {
-                            const fav = isFavorited(section.book, section.chapter, v.number)
-                            const speaking = speakingVerse === v.number
-                            return (
-                                <div
-                                    key={v.number}
-                                    ref={el => { verseElsRef.current[v.number] = el }}
-                                    onClick={() => handleVerseTap(v.number, v.text)}
-                                    className={`flex gap-3 p-3 rounded-lg cursor-pointer transition-colors group
-                                                ${speaking ? 'bg-success/10 border border-success/40' : fav ? 'bg-primary/10 border border-primary/30' : 'hover:bg-base-200'}`}
-                                >
-                                    <span className="text-xs text-base-content/30 mt-1 w-5 shrink-0 font-mono flex flex-col items-center gap-1">
-                                        {v.number}
-                                        {speaking && (
-                                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+                {step === 'scripture' && (
+                    <>
+                        <div className="flex flex-col gap-3">
+                            {verses.length === 0 && (
+                                <span className="loading loading-spinner loading-sm"/>
+                            )}
+                            {verses.length > 0 && (
+                                <div className="flex justify-end mb-1">
+                                    <button
+                                        onClick={isSpeaking ? stopTTS : startTTS}
+                                        className={`btn btn-sm gap-2 ${isSpeaking ? 'btn-error btn-outline' : 'btn-ghost text-base-content/40'}`}
+                                    >
+                                        {isSpeaking ? (
+                                            <>
+                                                <span className="inline-block w-2 h-2 rounded-sm bg-current"/>
+                                                Stop
+                                            </>
+                                        ) : (
+                                            <>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                     fill="currentColor" className="w-4 h-4">
+                                                    <path
+                                                        d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.84Z"/>
+                                                </svg>
+                                                Listen
+                                            </>
                                         )}
-                                    </span>
-                                    <p className={`leading-relaxed text-base flex-1 transition-colors ${speaking ? 'text-base-content' : 'text-base-content/80'}`}>
-                                        {v.text}
-                                    </p>
-                                    <div className={"flex items-center gap-1 shrink-0"}>
-                                        <ShareVerse book={section.book} chapter={section.chapter} verseNumber={v.number} verseText={v.text} />
-
-                                        <span className={`text-lg shrink-0 transition-opacity
-                                                    ${fav ? 'opacity-100' : 'opacity-0 group-hover:opacity-30'}`}>
-                                        ♥
-                                    </span>
-                                    </div>
+                                    </button>
                                 </div>
-                            )
-                        })}
-                        {verses.length > 0 && (
-                            <p className="text-xs text-base-content/20 mt-2 text-center">
-                                Tap a verse to save it to favorites
-                            </p>
-                        )}
-                    </div>
+                            )}
+                            {verses.map(v => {
+                                const fav = isFavorited(section.book, section.chapter, v.number);
+                                const speaking = speakingVerse === v.number;
+                                return (
+                                    <div
+                                        key={v.number}
+                                        ref={el => {
+                                            verseElsRef.current[v.number] = el;
+                                        }}
+                                        onClick={() => handleVerseTap(v.number, v.text)}
+                                        className={`flex gap-3 p-3 rounded-lg cursor-pointer transition-colors group
+                                                ${speaking ? 'bg-success/10 border border-success/40' : fav ? 'bg-primary/10 border border-primary/30' : 'hover:bg-base-200'}`}
+                                    >
+                                        <span
+                                            className="text-xs text-base-content/30 mt-1 w-5 shrink-0 font-mono flex flex-col items-center gap-1">
+                                            {v.number}
+                                            {speaking && (
+                                                <span
+                                                    className="inline-block w-1.5 h-1.5 rounded-full bg-success animate-pulse"/>
+                                            )}
+                                        </span>
+                                        <p className={`leading-relaxed text-base flex-1 transition-colors ${speaking ? 'text-base-content' : 'text-base-content/80'}`}>
+                                            {v.text}
+                                        </p>
+                                        <div className={"flex items-center gap-1 shrink-0"}>
+                                            <ShareVerse book={section.book} chapter={section.chapter}
+                                                        verseNumber={v.number} verseText={v.text}/>
 
-                    <div className="mt-12">
-                        <button
-                            onClick={() => setStep('reflection')}
-                            className="btn btn-primary w-full"
-                        >
-                            Continue
-                        </button>
-                    </div>
-                </>
-            )}
+                                            <span className={`text-lg shrink-0 transition-opacity
+                                                    ${fav ? 'opacity-100' : 'opacity-0 group-hover:opacity-30'}`}>
+                                                ♥
+                                            </span>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                            {verses.length > 0 && (
+                                <p className="text-xs text-base-content/20 mt-2 text-center">
+                                    Tap a verse to save it to favorites
+                                </p>
+                            )}
+                        </div>
 
-            {step === 'reflection' && (
-                <>
-                    <div className="flex flex-col gap-6">
-                        <p className="text-base-content/80 leading-relaxed text-base">
-                            {planData.summary}
-                        </p>
-
-                        {planData.commentary && (
-                            <div>
-                                <button
-                                    onClick={() => setShowCommentary(v => !v)}
-                                    className="btn btn-ghost btn-sm px-0 text-base-content/50"
-                                >
-                                    {showCommentary ? 'Hide commentary' : 'Show commentary'}
-                                </button>
-                                {showCommentary && (
-                                    <p className="mt-4 text-base-content/70 leading-relaxed text-base border-l-2 border-base-300 pl-4">
-                                        {planData.commentary}
-                                    </p>
-                                )}
-                            </div>
-                        )}
-                    </div>
-
-                    <div className="mt-12 flex flex-col gap-3">
-                        {!isCompleted ? (
+                        <div className="mt-12">
                             <button
-                                onClick={() => completeMutation.mutate()}
-                                disabled={completeMutation.isPending}
+                                onClick={() => setStep('reflection')}
                                 className="btn btn-primary w-full"
                             >
-                                {completeMutation.isPending
-                                    ? <span className="loading loading-spinner loading-sm" />
-                                    : 'Mark complete'
-                                }
+                                Continue
                             </button>
-                        ) : (
-                            <div className="flex flex-col gap-3">
-                                <div className="alert alert-success">
-                                    <span>✓ You completed this section</span>
+                        </div>
+                    </>
+                )}
+
+                {step === 'reflection' && (
+                    <>
+                        <div className="flex flex-col gap-6">
+                            <p className="text-base-content/80 leading-relaxed text-base">
+                                {planData.summary}
+                            </p>
+
+                            {planData.commentary && (
+                                <div>
+                                    <button
+                                        onClick={() => setShowCommentary(v => !v)}
+                                        className="btn btn-ghost btn-sm px-0 text-base-content/50"
+                                    >
+                                        {showCommentary ? 'Hide commentary' : 'Show commentary'}
+                                    </button>
+                                    {showCommentary && (
+                                        <p className="mt-4 text-base-content/70 leading-relaxed text-base border-l-2 border-base-300 pl-4">
+                                            {planData.commentary}
+                                        </p>
+                                    )}
                                 </div>
+                            )}
+                        </div>
+
+                        <div className="mt-12 flex flex-col gap-3">
+                            {!isCompleted ? (
                                 <button
-                                    onClick={() => navigate('/dashboard')}
-                                    className="btn btn-ghost w-full"
+                                    onClick={() => completeMutation.mutate()}
+                                    disabled={completeMutation.isPending}
+                                    className="btn btn-primary w-full"
                                 >
-                                    Back to dashboard
+                                    {completeMutation.isPending
+                                        ? <span className="loading loading-spinner loading-sm"/>
+                                        : 'Mark complete'}
                                 </button>
-                            </div>
-                        )}
-                    </div>
-                </>
-            )}
-        </div>
+                            ) : (
+                                <div className="flex flex-col gap-3">
+                                    <div className="alert alert-success">
+                                        <span>✓ You completed this section</span>
+                                    </div>
+                                    <button
+                                        onClick={() => navigate('/dashboard')}
+                                        className="btn btn-ghost w-full"
+                                    >
+                                        Back to dashboard
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    </>
+                )}
+            </div>
+        </>
     )
 }
